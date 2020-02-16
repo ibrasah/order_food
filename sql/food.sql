@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Feb 2020 pada 15.38
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.3.14
+-- Generation Time: Mar 30, 2017 at 05:22 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -25,31 +23,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `items`
+-- Table structure for table `items`
 --
 
 CREATE TABLE `items` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `price` int(11) NOT NULL,
-  `deleted` tinyint(4) NOT NULL DEFAULT 0
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `items`
+-- Dumping data for table `items`
 --
 
 INSERT INTO `items` (`id`, `name`, `price`, `deleted`) VALUES
-(1, 'Donat Coklat', 10000, 0),
-(2, 'Donat Keju', 12000, 0),
-(3, 'Donat Strowberry', 15000, 0),
-(4, 'Donat Blueberry', 12000, 0),
-(5, 'Donat Melon', 10000, 0);
+(1, 'Item 1', 25, 1),
+(2, 'Item 2', 45, 0),
+(3, 'Item 3', 20, 0),
+(4, 'Item 4', 15, 1),
+(5, 'Item 5', 20, 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -57,24 +55,29 @@ CREATE TABLE `orders` (
   `customer_id` int(11) NOT NULL,
   `address` varchar(300) NOT NULL,
   `description` varchar(300) NOT NULL,
-  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `payment_type` varchar(16) NOT NULL DEFAULT 'Wallet',
   `total` int(11) NOT NULL,
   `status` varchar(25) NOT NULL DEFAULT 'Yet to be delivered',
-  `deleted` tinyint(4) NOT NULL DEFAULT 0
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `address`, `description`, `date`, `payment_type`, `total`, `status`, `deleted`) VALUES
-(8, 3, 'Gondang Tulungrejo', 'Dikirim Cepat pak ya', '2020-02-16 14:30:07', 'Cash On Delivery', 85, 'Cancelled by Customer', 1);
+(1, 2, 'Address 2', 'Sample Description 1', '2017-03-28 17:32:41', 'Wallet', 150, 'Yet to be delivered', 0),
+(2, 2, 'New address 2', '', '2017-03-28 17:43:05', 'Wallet', 130, 'Cancelled by Customer', 1),
+(3, 3, 'Address 3', 'Sample Description 2', '2017-03-28 19:49:33', 'Cash On Delivery', 130, 'Yet to be delivered', 0),
+(4, 3, 'Address 3', '', '2017-03-28 19:52:01', 'Cash On Delivery', 130, 'Cancelled by Customer', 1),
+(5, 3, 'New Address 3', '', '2017-03-28 20:47:28', 'Wallet', 285, 'Paused', 0),
+(6, 3, 'New Address 3', '', '2017-03-30 00:43:31', 'Wallet', 325, 'Cancelled by Customer', 1);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `order_details`
+-- Table structure for table `order_details`
 --
 
 CREATE TABLE `order_details` (
@@ -86,18 +89,29 @@ CREATE TABLE `order_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `order_details`
+-- Dumping data for table `order_details`
 --
 
 INSERT INTO `order_details` (`id`, `order_id`, `item_id`, `quantity`, `price`) VALUES
-(16, 8, 2, 1, 45),
-(17, 8, 3, 1, 20),
-(18, 8, 5, 1, 20);
+(1, 1, 2, 2, 90),
+(2, 1, 3, 3, 60),
+(3, 2, 2, 2, 90),
+(4, 2, 3, 2, 40),
+(5, 3, 2, 2, 90),
+(6, 3, 3, 2, 40),
+(7, 4, 2, 2, 90),
+(8, 4, 3, 2, 40),
+(9, 5, 2, 5, 225),
+(10, 5, 3, 2, 40),
+(11, 5, 5, 1, 20),
+(12, 6, 2, 5, 225),
+(13, 6, 3, 3, 60),
+(14, 6, 5, 2, 40);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tickets`
+-- Table structure for table `tickets`
 --
 
 CREATE TABLE `tickets` (
@@ -107,12 +121,12 @@ CREATE TABLE `tickets` (
   `description` varchar(3000) NOT NULL,
   `status` varchar(8) NOT NULL DEFAULT 'Open',
   `type` varchar(30) NOT NULL DEFAULT 'Others',
-  `date` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted` tinyint(4) NOT NULL DEFAULT 0
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tickets`
+-- Dumping data for table `tickets`
 --
 
 INSERT INTO `tickets` (`id`, `poster_id`, `subject`, `description`, `status`, `type`, `date`, `deleted`) VALUES
@@ -121,7 +135,7 @@ INSERT INTO `tickets` (`id`, `poster_id`, `subject`, `description`, `status`, `t
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ticket_details`
+-- Table structure for table `ticket_details`
 --
 
 CREATE TABLE `ticket_details` (
@@ -129,13 +143,23 @@ CREATE TABLE `ticket_details` (
   `ticket_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `description` varchar(1000) NOT NULL,
-  `date` datetime NOT NULL DEFAULT current_timestamp()
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ticket_details`
+--
+
+INSERT INTO `ticket_details` (`id`, `ticket_id`, `user_id`, `description`, `date`) VALUES
+(1, 1, 2, 'New Description for Subject 1', '2017-03-30 18:08:51'),
+(2, 1, 2, 'Reply-1 for Subject 1', '2017-03-30 19:59:09'),
+(3, 1, 1, 'Reply-2 for Subject 1 from Administrator.', '2017-03-30 20:35:39'),
+(4, 1, 1, 'Reply-3 for Subject 1 from Administrator.', '2017-03-30 20:49:35');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -144,28 +168,28 @@ CREATE TABLE `users` (
   `name` varchar(15) NOT NULL,
   `username` varchar(10) NOT NULL,
   `password` varchar(16) NOT NULL,
-  `email` varchar(35) DEFAULT NULL,
-  `address` varchar(300) DEFAULT NULL,
+  `email` varchar(35) NULL,
+  `address` varchar(300) NULL,
   `contact` bigint(11) NOT NULL,
-  `verified` tinyint(1) NOT NULL DEFAULT 0,
-  `deleted` tinyint(4) NOT NULL DEFAULT 0
+  `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `role`, `name`, `username`, `password`, `email`, `address`, `contact`, `verified`, `deleted`) VALUES
 (1, 'Administrator', 'Admin 1', 'root', 'toor', '', 'Address 1', 9898000000, 1, 0),
 (2, 'Customer', 'Customer 1', 'user1', 'pass1', 'mail2@example.com', 'Address 2', 9898000001, 1, 0),
-(3, 'Customer', 'Ibra Sahputra', 'ibraa', 'arema2987', 'mail3@example.com', 'Gondang Tulungrejo', 9898000002, 1, 0),
+(3, 'Customer', 'Customer 2', 'user2', 'pass2', 'mail3@example.com', 'Address 3', 9898000002, 1, 0),
 (4, 'Customer', 'Customer 3', 'user3', 'pass3', '', '', 9898000003, 0, 0),
 (5, 'Customer', 'Customer 4', 'user4', 'pass4', '', '', 9898000004, 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `wallet`
+-- Table structure for table `wallet`
 --
 
 CREATE TABLE `wallet` (
@@ -174,7 +198,7 @@ CREATE TABLE `wallet` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `wallet`
+-- Dumping data for table `wallet`
 --
 
 INSERT INTO `wallet` (`id`, `customer_id`) VALUES
@@ -187,7 +211,7 @@ INSERT INTO `wallet` (`id`, `customer_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `wallet_details`
+-- Table structure for table `wallet_details`
 --
 
 CREATE TABLE `wallet_details` (
@@ -195,17 +219,17 @@ CREATE TABLE `wallet_details` (
   `wallet_id` int(11) NOT NULL,
   `number` varchar(16) NOT NULL,
   `cvv` int(3) NOT NULL,
-  `balance` int(11) NOT NULL DEFAULT 2000
+  `balance` int(11) NOT NULL DEFAULT '2000'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `wallet_details`
+-- Dumping data for table `wallet_details`
 --
 
 INSERT INTO `wallet_details` (`id`, `wallet_id`, `number`, `cvv`, `balance`) VALUES
 (1, 1, '6155247490533921', 983, 3430),
 (2, 2, '1887587142382050', 772, 1850),
-(3, 3, '4595809639046830', 532, 1870),
+(3, 3, '4595809639046830', 532, 1585),
 (4, 4, '5475856443351234', 521, 2000),
 (5, 5, '9076633115663264', 229, 2000);
 
@@ -214,7 +238,7 @@ INSERT INTO `wallet_details` (`id`, `wallet_id`, `number`, `cvv`, `balance`) VAL
 --
 
 --
--- Indeks untuk tabel `items`
+-- Indexes for table `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`),
@@ -222,7 +246,7 @@ ALTER TABLE `items`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indeks untuk tabel `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
@@ -230,7 +254,7 @@ ALTER TABLE `orders`
   ADD KEY `customer_id` (`customer_id`);
 
 --
--- Indeks untuk tabel `order_details`
+-- Indexes for table `order_details`
 --
 ALTER TABLE `order_details`
   ADD PRIMARY KEY (`id`),
@@ -239,14 +263,14 @@ ALTER TABLE `order_details`
   ADD KEY `order_id` (`order_id`);
 
 --
--- Indeks untuk tabel `tickets`
+-- Indexes for table `tickets`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`),
   ADD KEY `poster_id` (`poster_id`);
 
 --
--- Indeks untuk tabel `ticket_details`
+-- Indexes for table `ticket_details`
 --
 ALTER TABLE `ticket_details`
   ADD PRIMARY KEY (`id`),
@@ -254,7 +278,7 @@ ALTER TABLE `ticket_details`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -262,7 +286,7 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indeks untuk tabel `wallet`
+-- Indexes for table `wallet`
 --
 ALTER TABLE `wallet`
   ADD PRIMARY KEY (`id`),
@@ -270,7 +294,7 @@ ALTER TABLE `wallet`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indeks untuk tabel `wallet_details`
+-- Indexes for table `wallet_details`
 --
 ALTER TABLE `wallet_details`
   ADD PRIMARY KEY (`id`),
@@ -278,99 +302,90 @@ ALTER TABLE `wallet_details`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `items`
+-- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
--- AUTO_INCREMENT untuk tabel `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT untuk tabel `order_details`
+-- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
--- AUTO_INCREMENT untuk tabel `tickets`
+-- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
--- AUTO_INCREMENT untuk tabel `ticket_details`
+-- AUTO_INCREMENT for table `ticket_details`
 --
 ALTER TABLE `ticket_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
--- AUTO_INCREMENT untuk tabel `wallet`
+-- AUTO_INCREMENT for table `wallet`
 --
 ALTER TABLE `wallet`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
--- AUTO_INCREMENT untuk tabel `wallet_details`
+-- AUTO_INCREMENT for table `wallet_details`
 --
 ALTER TABLE `wallet_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- Constraints for dumped tables
+--
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `orders`
+-- Constraints for table `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `order_details`
+-- Constraints for table `order_details`
 --
 ALTER TABLE `order_details`
   ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
   ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `tickets`
+-- Constraints for table `tickets`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`poster_id`) REFERENCES `users` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `ticket_details`
+-- Constraints for table `ticket_details`
 --
 ALTER TABLE `ticket_details`
   ADD CONSTRAINT `ticket_details_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`),
   ADD CONSTRAINT `ticket_details_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `wallet`
+-- Constraints for table `wallet`
 --
 ALTER TABLE `wallet`
   ADD CONSTRAINT `wallet_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `wallet_details`
+-- Constraints for table `wallet_details`
 --
 ALTER TABLE `wallet_details`
   ADD CONSTRAINT `wallet_details_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
